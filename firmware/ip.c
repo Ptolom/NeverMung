@@ -61,8 +61,8 @@ IPmainloop()
   {
     eth_rx_wrt_pt.c[1]=readctrlreg(ERXWRPTH)
     eth_rx_wrt_pt.c[0]=readctrlreg(ERXWRPTL)
-    bufferlen= readctrlreg(EPKTCNT)
-    nextpoint=
+    packetsinbuffer = readctrlreg(EPKTCNT)
+    nextpoint= readbuffer
     readbuffer(
   }
 }
