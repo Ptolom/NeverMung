@@ -1,0 +1,43 @@
+PCBNEW-LibModule-V1  Sat 17 Sep 2011 10:29:40 PM BST
+# encoding utf-8
+$INDEX
+SD connector (Hirose DM1AA-SF-PEJ)
+$EndINDEX
+$MODULE SD connector (Hirose DM1AA-SF-PEJ)
+Po 0 0 0 15 4E751122 4E7510D1 ~~
+Li SD connector (Hirose DM1AA-SF-PEJ)
+Sc 4E7510D1
+AR 
+Op 0 0 0
+T0 -14050 -12750 600 600 0 120 N V 21 N "SD connector (Hirose DM1AA-SF-PEJ)"
+T1 -15450 -10850 600 600 0 120 N V 21 N "VAL**"
+$PAD
+Sh "1" R 433 787 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 3150 -866
+$EndPAD
+$PAD
+Sh "1" R 433 787 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 2165 -866
+$EndPAD
+$PAD
+Sh "1" R 433 787 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 1201 -866
+$EndPAD
+$PAD
+Sh "1" R 433 787 0 0 0
+Dr 0 0 0
+At SMD N 00888000
+Ne 0 ""
+Po 531 -866
+$EndPAD
+$EndMODULE  SD connector (Hirose DM1AA-SF-PEJ)
+$EndLIBRARY
