@@ -27,6 +27,7 @@
 #define DD_SS0   DDC0
 #define DD_SS1   DDC1
 #define DDR_SPI DDRB
+#define RX_BUFFER_SIZE
 
 union u_intchar {
 uint16_t i;
@@ -138,4 +139,15 @@ writectrlreg(MACCON3, (1<<PADCFG0)|(1<<TXCRCEN)|(1<<FULDPX));
 writectrlreg(ERXFCON, 0x80);
 writectrlreg(ECON1, (1<<RXEN);
 writectrlreg(ECON2, (1<<AUTOINC);
+
+u_intchar erxstart, erxend;
+erxstart.i = RX_BUFFER_END - RX_BUFFER_LENGTH;
+writectrlreg(ERXSTL, erxstart.c[0]);
+writectrlreg(ERXSTH, erxstart.c[1]);
+
+erxend.i = RX_BUFFER_END;
+writectrlreg(ERXNDL, erxend.c[0]);
+writectrlreg(ERXNDH, erxend.c[1]);
+writectrlreg(ERXRDPTL, erxstart.c[0]);
+writectrlreg(ERXRDPTH, erxstart.c[1]);
 }

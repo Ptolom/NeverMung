@@ -18,10 +18,12 @@
 */
 
 #include <avr/interrupt.h>
+#include <util/atomic.h>
 int task;
 int ntasks;
 struct task {
 int yield;
+char* flag;
 u_intchar sp;
 uint16_t stack_max;
 uint16_t stack_top;
