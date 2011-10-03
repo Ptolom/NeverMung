@@ -84,17 +84,25 @@ typedef struct {
   u_intchar Type;
   uint8_t data[MAX_PACKET_SIZE-18]
 } eth_packet;
-*eth_packet process_eth(uint8_t packet[MAX_PACKET_SIZE],int length) //process ethernet packets into separate fields and pass to IP
+void process_eth(uint8_t packet[MAX_PACKET_SIZE],int length) //process ethernet packets into separate fields and pass them to IP
 {
-  eth_packet packet_fields;
-  int i;
-  for(i=0;i<6;i++)
-    DA[i]=packet[i];
-  for(i=0;i<6;i++)
-    SA[i]=packet[i+6];
-  for(i=0;i<2;i++)
-    Type.c[i]=packet[i+12];
-  for(i=0;i<length-18;i++) //until i=length of packet, less non data fields
-    data[i]=packet[i+14];
-  return &packet_fields;
+  while(true){
+    eth_packet packet_fields;
+    int i;
+    for(i=0;i<6;i++)
+      DA[i]=packet[i];
+    for(i=0;i<6;i++)
+      SA[i]=packet[i+6];
+    for(i=0;i<2;i++)
+      Type.c[i]=packet[i+12];
+    for(i=0;i<length-18;i++) //until i=length of packet, less non data fields
+      data[i]=packet[i+14];
+    packet_processed=1;
+    process_IP (&packet_fields);
+  }
+}
+
+void process_IP(eth_packet* packet_fields)
+{
+  
 }
