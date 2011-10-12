@@ -90,13 +90,13 @@ void process_eth(uint8_t packet[MAX_PACKET_SIZE],int length) //process ethernet 
     eth_packet packet_fields;
     int i;
     for(i=0;i<6;i++)
-      DA[i]=packet[i];
+      packet_fields.DA[i]=packet[i];
     for(i=0;i<6;i++)
-      SA[i]=packet[i+6];
+      packet_fields.SA[i]=packet[i+6];
     for(i=0;i<2;i++)
-      Type.c[i]=packet[i+12];
+      packet_fields.Type.c[i]=packet[i+12];
     for(i=0;i<length-18;i++) //until i=length of packet, less non data fields
-      data[i]=packet[i+14];
+      packet_fields.data[i]=packet[i+14];
     packet_processed=1;
     process_IP (&packet_fields);
   }
