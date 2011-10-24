@@ -84,6 +84,21 @@ typedef struct {
   u_intchar Type;
   uint8_t data[MAX_PACKET_SIZE-18]
 } eth_packet;
+typedef struct {
+  uint8_t version;
+  uint8_t IHL;
+  uint16_t Type;
+  uint16_t length;
+  uint16_t ID;
+  uint8_t fragment_flags;
+  uint8_t TTL;
+  uint8_t protocol;
+  uint8_t checksum; //one's complement of one's complement sum. whuh?
+  uint32_t source;
+  uint32_t dest;
+  uint8_t data[MAX_PACKET_SIZE-18-160]; //max packet size, less minimum Ethernet and IP header length
+}
+  
 void process_eth(uint8_t packet[MAX_PACKET_SIZE],int length) //process ethernet packets into separate fields and pass them to IP
 {
   while(true){
