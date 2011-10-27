@@ -19,6 +19,11 @@
 #include <flags.h>
 #include <util/atomic.h>
 
+union mac_address {
+uint64_t i;
+uint8_t c[6];
+}
+
 int bufferedpackets;
 
 checksum(uint16_t packet[],int l)
@@ -54,11 +59,11 @@ createpacket(uint8_t data, uint32_t address, char frag, int fragoffset, char pro
   packet32int[4]=destIP;
   packetint[5]=checksum(packetint);
 }
-
+/*
 ETHmainloop()
 {
   uint8_t packet[576];
-  u_intchar eth_rx_write_pointer;
+  u_intchar eth_rx_read_pointer;
   u_intchar nextpointer;
   while(true)
   {
@@ -77,10 +82,11 @@ ETHmainloop()
     process_eth(packet, length);
     yield(packet_processed);
   }
+*/
 }
 typedef struct {
-  uint8_t DA[6];
-  uint8_t SA[6];
+  mac_address DA;
+  mac_address SA;
   u_intchar Type;
   uint8_t data[MAX_PACKET_SIZE-18]
 } eth_packet;
@@ -93,31 +99,38 @@ typedef struct {
   uint8_t fragment_flags;
   uint8_t TTL;
   uint8_t protocol;
-  uint8_t checksum; //one's complement of one's complement sum. whuh?
+  uint8_t checksum; //one's complement of one's complement sum. huh?
   uint32_t source;
   uint32_t dest;
   uint8_t data[MAX_PACKET_SIZE-18-160]; //max packet size, less minimum Ethernet and IP header length
 }
   
-void process_eth(uint8_t packet[MAX_PACKET_SIZE],int length) //process ethernet packets into separate fields and pass them to IP
+void process_eth(int length) //process ethernet header into separate fields and pass them to IP
 {
-  while(true){
-    eth_packet packet_fields;
-    int i;
-    for(i=0;i<6;i++)
-      packet_fields.DA[i]=packet[i];
-    for(i=0;i<6;i++)
-      packet_fields.SA[i]=packet[i+6];
-    for(i=0;i<2;i++)
-      packet_fields.Type.c[i]=packet[i+12];
-    for(i=0;i<length-18;i++) //until i=length of packet, less non data fields
-      packet_fields.data[i]=packet[i+14];
-    packet_processed=1;
-    process_IP (&packet_fields);
+  uint8_t ETH_Header[14];
+  ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+  {
+    readbuffer(ETH_Header, 14); //read ETH header
+    packet_processed=0;
   }
+
+  eth_packet packet_fields;
+  int i;
+  for(i=0;i<6;i++)
+    packet_fields.DA[i]=packet[i];
+  for(i=0;i<6;i++)
+    packet_fields.SA[i]=packet[i+6];
+  for(i=0;i<2;i++)
+    packet_fields.Type.c[i]=packet[i+12];
+  if (packet_fields.DA=MAC)
+    process_IP (&packet_fields);
 }
 
-void process_IP(eth_packet* packet_fields)
+void process_IP(eth_packet* packet_fields) //process IP Headers and pass to TCP
 {
   
 }
+
+for(i=0;i<length-18;i++) //until i=length of packet, less non data fields
+    packet_fields.data[i]=packet[i+14];
+
