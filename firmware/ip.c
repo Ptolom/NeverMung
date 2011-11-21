@@ -17,12 +17,8 @@
  *along with NeverMung.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <flags.h>
+#include <types.h>
 #include <util/atomic.h>
-
-union mac_address {
-uint64_t i;
-uint8_t c[6];
-}
 
 int bufferedpackets;
 
@@ -88,8 +84,8 @@ typedef struct {
   mac_address DA;
   mac_address SA;
   u_intchar Type;
-  uint8_t data[MAX_PACKET_SIZE-18]
 } eth_packet;
+
 typedef struct {
   uint8_t version;
   uint8_t IHL;
@@ -102,8 +98,7 @@ typedef struct {
   uint8_t checksum; //one's complement of one's complement sum. huh?
   uint32_t source;
   uint32_t dest;
-  uint8_t data[MAX_PACKET_SIZE-18-160]; //max packet size, less minimum Ethernet and IP header length
-}
+} IP_Packet
   
 void process_eth(int length) //process ethernet header into separate fields and pass them to IP
 {
@@ -132,5 +127,5 @@ void process_IP(eth_packet* packet_fields) //process IP Headers and pass to TCP
 }
 
 for(i=0;i<length-18;i++) //until i=length of packet, less non data fields
-    packet_fields.data[i]=packet[i+14];
+  packet_fields.data[i]=packet[i+14];
 

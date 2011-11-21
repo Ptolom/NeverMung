@@ -29,11 +29,6 @@
 #define DDR_SPI DDRB
 #define RX_BUFFER_SIZE
 
-union u_intchar {
-uint16_t i;
-uint8_t c[2];
-}
-
 void SPI_MasterInit(void)
 {
   /* Set MOSI and SCK output, all others input */
