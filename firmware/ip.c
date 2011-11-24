@@ -78,29 +78,10 @@ ETHmainloop()
     process_eth(packet, length);
     yield(packet_processed);
   }
-*/
 }
-typedef struct {
-  mac_address DA;
-  mac_address SA;
-  u_intchar Type;
-} eth_packet;
-
-typedef struct {
-  uint8_t version;
-  uint8_t IHL;
-  uint16_t Type;
-  uint16_t length;
-  uint16_t ID;
-  uint8_t fragment_flags;
-  uint8_t TTL;
-  uint8_t protocol;
-  uint8_t checksum; //one's complement of one's complement sum. huh?
-  uint32_t source;
-  uint32_t dest;
-} IP_Packet
+*/
   
-void process_eth(int length) //process ethernet header into separate fields and pass them to IP
+void process_eth(int length) //process ethernet header into separate fields
 {
   uint8_t ETH_Header[14];
   ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
